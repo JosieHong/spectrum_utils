@@ -249,6 +249,13 @@ class PeakInterpretation:
         else:
             return self._unknown
 
+    def sort_by_delta(self) -> None:
+        """Sort the fragment annotations by their m/z delta (if available)."""
+        self.fragment_annotations.sort(
+            key=lambda x: float("inf")
+            if x.mz_delta is None
+            else abs(x.mz_delta[0])
+        )
 
 def get_theoretical_fragments(
     proteoform: proforma.Proteoform,

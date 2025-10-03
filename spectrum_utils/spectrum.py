@@ -635,6 +635,7 @@ class MsmsSpectrum:
         max_isotope: int = 0,
         max_ion_charge: Optional[int] = None,
         neutral_losses: Union[bool, Dict[Optional[str], float]] = False,
+        sort_by_delta: bool = False,
     ) -> MsmsSpectrum:
         """
         Assign fragment ion labels to the peaks from a ProForma
@@ -723,6 +724,8 @@ class MsmsSpectrum:
                     )
                     pi.fragment_annotations.append(fragment)
                     i += 1
+                if sort_by_delta:
+                    pi.sort_by_delta()
                 self.annotation[peak_i] = pi
             if analyte_number is not None:
                 analyte_number += 1
@@ -739,6 +742,7 @@ class MsmsSpectrum:
         max_isotope: int = 0,
         max_ion_charge: Optional[int] = None,
         neutral_losses: Union[bool, Dict[Optional[str], float]] = False,
+        sort_by_delta: bool = False,
     ) -> MsmsSpectrum:
         """
         Assign fragment ion labels to the peaks from a ProForma
@@ -790,6 +794,11 @@ class MsmsSpectrum:
             - Loss of mercaptoacetic acid (C2H4O2S): -91.993211.
             - Loss of phosphoric acid (H3PO4): -97.976896.
 
+        sort_by_delta : bool
+            Whether to sort the fragment annotations by their m/z delta
+            (if available). This can be useful when multiple annotations
+            are possible for a peak (the default is False).
+
         Returns
         -------
         MsmsSpectrum
@@ -805,4 +814,5 @@ class MsmsSpectrum:
             max_isotope=max_isotope,
             max_ion_charge=max_ion_charge,
             neutral_losses=neutral_losses,
+            sort_by_delta=sort_by_delta,
         )
